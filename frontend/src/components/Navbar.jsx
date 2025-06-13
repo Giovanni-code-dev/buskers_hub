@@ -56,7 +56,7 @@ const Navbar = () => {
     <header className="sticky top-0 z-50 w-full px-4 py-3 bg-card text-card-foreground shadow-md">
       <div className="flex items-center justify-between w-full h-12 sm:h-auto">
         <Link to="/home" className="text-xl font-bold">
-          BaralliEnterprise
+          BuskersHub
         </Link>
 
         <div className="flex items-center gap-2">
