@@ -194,7 +194,7 @@ const Shows = () => {
   return (
     <div className="space-y-8">
       <h1 className="text-2xl font-bold">
-         {editMode ? "Modifica spettacolo" : "Aggiungi spettacolo"}
+        {editMode ? "Modifica spettacolo" : "Aggiungi spettacolo"}
       </h1>
 
       <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -295,7 +295,7 @@ const Shows = () => {
                 className="mt-2"
                 onClick={saveCoverChange}
               >
-                 Salva copertina
+                Salva copertina
               </Button>
             </div>
           )}
@@ -321,44 +321,26 @@ const Shows = () => {
                   className="w-full h-48 object-cover rounded-t-md"
                 />
               )}
-<Card className="flex flex-col h-full overflow-hidden">
-  <CardHeader className="p-0">
-    <img
-      src={show.images?.[0]?.url || '/placeholder.jpg'}
-      alt={show.title}
-      className="w-full h-40 object-cover"
-    />
-  </CardHeader>
+              <CardContent className="p-0 flex-1 flex flex-col">
+                <div className="flex flex-col justify-between flex-1 p-4">
+                  <div className="space-y-1">
+                    <h2 className="text-lg font-semibold">{show.title}</h2>
+                    <p className="text-sm text-muted-foreground line-clamp-2">{show.description}</p>
+                    <p className="text-sm">
+                      {show.category} —  {show.durationMinutes} min
+                    </p>
+                  </div>
 
-  <CardContent className="p-4 flex-1 flex flex-col justify-between">
-    <div className="space-y-1">
-      <h2 className="text-lg font-semibold">{show.title}</h2>
-      <p className="text-sm text-muted-foreground line-clamp-2">
-        {show.description}
-      </p>
-      <p className="text-sm text-muted-foreground italic">
-        {show.category} — {show.durationMinutes} min
-      </p>
-    </div>
-  </CardContent>
-
-  <CardFooter className="p-4 flex justify-end gap-2">
-    <Button
-      variant="outline"
-      size="sm"
-      onClick={() => editShow(show)}
-    >
-      Modifica
-    </Button>
-    <Button
-      variant="destructive"
-      size="sm"
-      onClick={() => deleteShow(show._id)}
-    >
-      Elimina
-    </Button>
-  </CardFooter>
-</Card>
+                  <div className="flex justify-between mt-4">
+                    <Button variant="outline" size="sm" onClick={() => editShow(show)}>
+                      Modifica
+                    </Button>
+                    <Button variant="destructive" size="sm" onClick={() => deleteShow(show._id)}>
+                      Elimina
+                    </Button>
+                  </div>
+                </div>
+              </CardContent>
 
             </Card>
           )
