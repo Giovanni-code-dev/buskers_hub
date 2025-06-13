@@ -2,6 +2,8 @@ import { Link, useLocation } from "react-router-dom"
 import { useTheme } from "@/contexts/ThemeContext"
 import { useUser } from "@/contexts/UserContext"
 import useLogout from "@/hooks/useLogout"
+import buskerHubLogo from "@/assets/buskerHub.jpeg"
+
 
 import SearchBar from "@/components/SearchBar"
 import SearchMobilePopover from "@/components/search/SearchMobilePopover"
@@ -55,14 +57,15 @@ const Navbar = () => {
   return (
     <header className="sticky top-0 z-50 w-full px-4 py-3 bg-card text-card-foreground shadow-md">
       <div className="flex items-center justify-between w-full h-12 sm:h-auto">
-        <Link to="/home" className="flex items-center gap-2">
-          <img
-            src="../assets/frontend/src/assets/photo_2025-06-13 16.43.48.jpeg" 
-            alt="BuskersHub logo"
-            className="h-8 w-auto"
-          />
-          <span className="text-xl font-bold hidden sm:inline">BuskersHub</span>
-        </Link>
+      <Link to="/home" className="flex items-center gap-2">
+  <img
+    src={buskerHubLogo}
+    alt="BuskersHub logo"
+    className="h-8 w-auto rounded-md"
+  />
+  <span className="text-xl font-bold hidden sm:inline">BuskersHub</span>
+</Link>
+
 
 
         <div className="flex items-center gap-2">
