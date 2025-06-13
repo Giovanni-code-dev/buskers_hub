@@ -17,19 +17,17 @@ const startGoogleOAuth = (role) =>
 const handleGoogleCallback = () =>
   passport.authenticate("google", {
     session: false,
-    failureRedirect: `${FRONTEND_URL}/auth/success?error=unauthorized`
-
+    failureRedirect: `${FRONTEND_URL}/redirect-google?error=unauthorized`
   })
 
 //  Callback finale: controlla req.user e redirige con token o errore
 const finalizeLogin = (req, res) => {
   if (!req.user || !req.user.token) {
-    return res.redirect(`${FRONTEND_URL}/auth/google/callback?error=unauthorized`)
+    return res.redirect(`${FRONTEND_URL}/redirect-google?error=unauthorized`)
   }
 
   const token = req.user.token
-  res.redirect(`${FRONTEND_URL}/auth/success?accessToken=${token}`)
-
+  res.redirect(`${FRONTEND_URL}/redirect-google?token=${token}`)
 }
 
 // === Rotte per LOGIN con Google ===

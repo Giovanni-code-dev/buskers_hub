@@ -12,7 +12,14 @@ export const UserProvider = ({ children }) => {
     const storedUser = localStorage.getItem("user")
     if (storedUser) {
       const parsedUser = JSON.parse(storedUser)
-  
+
+      // 🔐 Controllo di sicurezza base
+      if (!parsedUser?.role || !parsedUser?.token) {
+        console.warn("⚠️ Utente mancante o invalido. Logout forzato.")
+        logout()
+        return
+      }
+
       fetch(`${import.meta.env.VITE_BACKEND_URL}/${parsedUser.role}/me`, {
         headers: {
           Authorization: `Bearer ${parsedUser.token}`,
@@ -21,24 +28,23 @@ export const UserProvider = ({ children }) => {
         .then((res) => {
           console.log("Risposta dal backend:", res.status)
           if (!res.ok) {
-            console.warn(" Utente non valido o eliminato. Logout forzato.")
+            console.warn("⚠️ Utente non valido o eliminato. Logout forzato.")
             logout()
           } else {
             setUser(parsedUser)
           }
         })
         .catch((err) => {
-          console.error("Errore nella verifica utente:", err)
+          console.error("❌ Errore nella verifica utente:", err.message)
           logout()
         })
     }
   }, [])
-  
 
   // Salva user e token in localStorage e aggiorna il context
   const login = (userData) => {
     localStorage.setItem("user", JSON.stringify(userData))
-    localStorage.setItem("token", userData.token) 
+    localStorage.setItem("token", userData.token)
     setUser(userData)
   }
 
