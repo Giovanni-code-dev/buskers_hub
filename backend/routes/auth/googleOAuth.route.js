@@ -27,7 +27,8 @@ const finalizeLogin = (req, res) => {
   }
 
   const token = req.user.token
-  res.redirect(`${FRONTEND_URL}/auth/google/callback?token=${token}`)
+  res.redirect(`${FRONTEND_URL}/auth/success?accessToken=${token}`)
+
 }
 
 // === Rotte per LOGIN con Google ===

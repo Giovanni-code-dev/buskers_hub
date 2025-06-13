@@ -29,6 +29,11 @@ app.get("/", (req, res) => {
   res.send("Server attivo!")
 })
 
+// ✅ Rotta temporanea per visualizzare il token dopo il login Google
+app.get("/auth/success", (req, res) => {
+  res.send(`✅ Login Google riuscito!<br><br>Token JWT generato:<br><code>${req.query.accessToken}</code>`)
+})
+
 //  404 Not Found per rotte non gestite
 app.use((req, res, next) => {
   next(createHttpError(404, "Endpoint non trovato"))
