@@ -1,6 +1,7 @@
 // authService.js
 
-const BASE_URL = "http://localhost:3001/auth"
+const BASE_URL = `${import.meta.env.VITE_BACKEND_URL}/auth`
+
 
 // Login artista
 export const loginArtist = async (email, password) => {
