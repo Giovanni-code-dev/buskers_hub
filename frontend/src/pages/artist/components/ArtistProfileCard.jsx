@@ -60,7 +60,7 @@ const ArtistProfileCard = ({ artist }) => {
               {artist.averageRating} su {artist.reviewCount} recensioni
             </p>
           ) : (
-            <p className="text-muted-foreground italic">Nessuna recensione</p>
+            <p className="text-muted-foreground italic"></p>
           )}
         </div>
 

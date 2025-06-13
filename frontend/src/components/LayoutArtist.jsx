@@ -18,10 +18,9 @@ const LayoutArtist = () => {
             <NavLink to="/dashboard/artist" end className={navStyle}>Dashboard</NavLink>
             <NavLink to="/dashboard/artist/shows" className={navStyle}>Spettacoli</NavLink>
             <NavLink to="/dashboard/artist/requests" className={navStyle}>Richieste ricevute</NavLink>
-            <NavLink to="/dashboard/artist/packages" className={navStyle}>Pacchetti</NavLink>
-            <NavLink to="/dashboard/artist/projects" className={navStyle}>Progetti</NavLink>
+
             <NavLink to="/dashboard/artist/calendar" className={navStyle}>Calendario</NavLink>
-            <NavLink to="/dashboard/artist/settings" className={navStyle}>Tema</NavLink>
+
             <NavLink to="/dashboard/artist/edit-profile" className={navStyle}>Modifica profilo</NavLink> {/* ✅ Nuova voce */}
           </nav>
 
