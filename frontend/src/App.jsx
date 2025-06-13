@@ -42,7 +42,7 @@ function App() {
       <Route path="/" element={<LoginSelector />} />
       <Route path="/login/customer" element={<LoginCustomer />} />
       <Route path="/login/artist" element={<LoginArtist />} />
-      <Route path="/auth/google/callback" element={<RedirectGoogle />} />
+      <Route path="/redirect-google" element={<RedirectGoogle />} />
       <Route path="/register" element={<RegisterSelector />} />
       <Route path="/register/customer" element={<RegisterCustomer />} />
       <Route path="/register/artist" element={<RegisterArtist />} />
