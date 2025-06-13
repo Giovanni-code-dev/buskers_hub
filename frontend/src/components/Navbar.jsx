@@ -55,9 +55,15 @@ const Navbar = () => {
   return (
     <header className="sticky top-0 z-50 w-full px-4 py-3 bg-card text-card-foreground shadow-md">
       <div className="flex items-center justify-between w-full h-12 sm:h-auto">
-        <Link to="/home" className="text-xl font-bold">
-          BuskersHub
+        <Link to="/home" className="flex items-center gap-2">
+          <img
+            src="../assets/frontend/src/assets/photo_2025-06-13 16.43.48.jpeg" 
+            alt="BuskersHub logo"
+            className="h-8 w-auto"
+          />
+          <span className="text-xl font-bold hidden sm:inline">BuskersHub</span>
         </Link>
+
 
         <div className="flex items-center gap-2">
           <div className="block md:hidden">
@@ -150,10 +156,10 @@ const Navbar = () => {
               <DropdownMenuContent align="end">
                 <DropdownMenuItem asChild><Link to="/dashboard/artist">Dashboard</Link></DropdownMenuItem>
                 <DropdownMenuItem asChild><Link to="/dashboard/artist/shows">Spettacoli</Link></DropdownMenuItem>
-            
-              
+
+
                 <DropdownMenuItem asChild><Link to="/dashboard/artist/calendar">Calendario</Link></DropdownMenuItem>
-               
+
               </DropdownMenuContent>
             </DropdownMenu>
           )}
