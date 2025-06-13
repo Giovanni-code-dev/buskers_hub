@@ -321,8 +321,16 @@ const Shows = () => {
                   className="w-full h-48 object-cover rounded-t-md"
                 />
               )}
-<CardContent className="p-0 flex-1 flex flex-col">
-  <div className="flex flex-col justify-between flex-1 p-4">
+<Card className="flex flex-col h-full overflow-hidden">
+  <CardHeader className="p-0">
+    <img
+      src={show.images?.[0]?.url || '/placeholder.jpg'}
+      alt={show.title}
+      className="w-full h-40 object-cover"
+    />
+  </CardHeader>
+
+  <CardContent className="p-4 flex-1 flex flex-col justify-between">
     <div className="space-y-1">
       <h2 className="text-lg font-semibold">{show.title}</h2>
       <p className="text-sm text-muted-foreground line-clamp-2">
@@ -332,25 +340,25 @@ const Shows = () => {
         {show.category} — {show.durationMinutes} min
       </p>
     </div>
+  </CardContent>
 
-    <div className="mt-4 flex justify-end gap-2">
-      <Button
-        variant="outline"
-        size="sm"
-        onClick={() => editShow(show)}
-      >
-        Modifica
-      </Button>
-      <Button
-        variant="destructive"
-        size="sm"
-        onClick={() => deleteShow(show._id)}
-      >
-        Elimina
-      </Button>
-    </div>
-  </div>
-</CardContent>
+  <CardFooter className="p-4 flex justify-end gap-2">
+    <Button
+      variant="outline"
+      size="sm"
+      onClick={() => editShow(show)}
+    >
+      Modifica
+    </Button>
+    <Button
+      variant="destructive"
+      size="sm"
+      onClick={() => deleteShow(show._id)}
+    >
+      Elimina
+    </Button>
+  </CardFooter>
+</Card>
 
             </Card>
           )
