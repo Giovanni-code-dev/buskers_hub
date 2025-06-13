@@ -17,7 +17,8 @@ const startGoogleOAuth = (role) =>
 const handleGoogleCallback = () =>
   passport.authenticate("google", {
     session: false,
-    failureRedirect: `${FRONTEND_URL}/auth/google/callback?error=unauthorized`,
+    failureRedirect: `${FRONTEND_URL}/auth/success?error=unauthorized`
+
   })
 
 //  Callback finale: controlla req.user e redirige con token o errore
