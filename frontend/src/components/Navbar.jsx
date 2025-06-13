@@ -150,10 +150,10 @@ const Navbar = () => {
               <DropdownMenuContent align="end">
                 <DropdownMenuItem asChild><Link to="/dashboard/artist">Dashboard</Link></DropdownMenuItem>
                 <DropdownMenuItem asChild><Link to="/dashboard/artist/shows">Spettacoli</Link></DropdownMenuItem>
-                <DropdownMenuItem asChild><Link to="/dashboard/artist/packages">Pacchetti</Link></DropdownMenuItem>
-                <DropdownMenuItem asChild><Link to="/dashboard/artist/projects">Progetti</Link></DropdownMenuItem>
+            
+              
                 <DropdownMenuItem asChild><Link to="/dashboard/artist/calendar">Calendario</Link></DropdownMenuItem>
-                <DropdownMenuItem asChild><Link to="/dashboard/artist/settings">Tema</Link></DropdownMenuItem>
+               
               </DropdownMenuContent>
             </DropdownMenu>
           )}
