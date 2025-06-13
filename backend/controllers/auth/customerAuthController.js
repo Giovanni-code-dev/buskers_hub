@@ -1,6 +1,7 @@
 import Customer from "../../models/Customer.js"
 import createHttpError from "http-errors"
 import { createAccessToken } from "../../tools/jwtTools.js"
+import bcrypt from "bcrypt" 
 
 // REGISTRAZIONE
 export const registerCustomer = async (req, res, next) => {
@@ -12,6 +13,7 @@ export const registerCustomer = async (req, res, next) => {
       console.log("Registrazione bloccata: email già presente per customer:", email)
       throw createHttpError(409, "Utente già registrato come customer")
     }
+
     const newCustomer = new Customer({ email, password, name })
     await newCustomer.save()
 
@@ -33,7 +35,7 @@ export const registerCustomer = async (req, res, next) => {
         email: newCustomer.email
       }
     })
-    
+
   } catch (error) {
     next(error)
   }
@@ -47,7 +49,8 @@ export const loginCustomer = async (req, res, next) => {
     const customer = await Customer.findOne({ email })
     if (!customer) throw createHttpError(404, "Customer non trovato")
 
-    const isMatch = await customer.comparePassword(password)
+    // Uso diretto di bcrypt.compare
+    const isMatch = await bcrypt.compare(password, customer.password)
     if (!isMatch) throw createHttpError(401, "Password errata")
 
     const token = await createAccessToken({
