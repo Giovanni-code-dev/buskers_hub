@@ -80,8 +80,8 @@ const SearchBar = () => {
   }
 
   return (
-    <div className="flex w-full max-w-5xl items-center rounded-full border shadow-md bg-white overflow-hidden divide-x divide-border px-2">
-      {/* Città */}
+<div className="flex w-full max-w-5xl items-center rounded-full border shadow-md bg-background text-foreground overflow-hidden divide-x divide-border px-2">
+{/* Città */}
       <div className="px-4 py-3 flex-1 min-w-[140px]">
         <div className="text-xs font-semibold text-muted-foreground">Dove</div>
         <ComboboxCity
@@ -158,7 +158,9 @@ const SearchBar = () => {
       <div className="flex items-center gap-2 px-4 py-3">
         <Button
           size="icon"
-          className="rounded-full bg-red-500 hover:bg-red-600 text-white"
+          className="rounded-full bg-primary text-primary-foreground hover:bg-primary/70"
+
+
           onClick={handleSearch}
         >
           <Search className="h-5 w-5" />
@@ -166,12 +168,12 @@ const SearchBar = () => {
 
         {hasActiveFilters && (
           <Button
-            variant="outline"
-            className="rounded-full px-3 py-1 text-sm border-gray-300 hover:bg-gray-100"
-            onClick={handleReset}
-          >
-            ♻️
-          </Button>
+  variant="outline"
+  className="rounded-full px-3 py-1 text-sm border-border hover:bg-gray-100"
+  onClick={handleReset}
+>
+  ♻️
+</Button>
         )}
       </div>
     </div>

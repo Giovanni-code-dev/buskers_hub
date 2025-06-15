@@ -20,7 +20,7 @@ const ArtistPublicPage = () => {
 
   const [loading, setLoading] = useState(true)
 
-console.log(" Caricamento oggetto artist:", artist )
+  console.log("Caricamento oggetto artist:", artist)
 
   useEffect(() => {
     const fetchAll = async () => {
@@ -29,14 +29,14 @@ console.log(" Caricamento oggetto artist:", artist )
           fetch(`${import.meta.env.VITE_BACKEND_URL}/artist/public/${id}`),
           fetch(`${import.meta.env.VITE_BACKEND_URL}/shows/artist/${id}`),
           fetch(`${import.meta.env.VITE_BACKEND_URL}/packages/artist/${id}`),
-          fetch(`${import.meta.env.VITE_BACKEND_URL}/projects/artist/${id}`)
+          fetch(`${import.meta.env.VITE_BACKEND_URL}/projects/artist/${id}`),
         ])
 
         const [artistData, showsData, packagesData, projectsData] = await Promise.all([
           artistRes.json(),
           showsRes.json(),
           packagesRes.json(),
-          projectsRes.json()
+          projectsRes.json(),
         ])
 
         setArtist(artistData)
@@ -44,9 +44,9 @@ console.log(" Caricamento oggetto artist:", artist )
         setPackages(packagesData)
         setProjects(projectsData)
 
-        setShowImages(showsData.flatMap(s => s.images || []))
-        setPackageImages(packagesData.flatMap(p => p.images || []))
-        setProjectImages(projectsData.flatMap(prj => prj.images || []))
+        setShowImages(showsData.flatMap((s) => s.images || []))
+        setPackageImages(packagesData.flatMap((p) => p.images || []))
+        setProjectImages(projectsData.flatMap((prj) => prj.images || []))
       } catch (error) {
         console.error("Errore nel caricamento:", error)
       } finally {
@@ -58,20 +58,17 @@ console.log(" Caricamento oggetto artist:", artist )
   }, [id])
 
   if (loading || !artist) {
-    
     return (
-      <div className="flex justify-center mt-20">
-        <Skeleton className="w-[300px] h-[400px]" />
+      <div className="flex justify-center items-center min-h-[400px]">
+        <Skeleton className="w-[300px] h-[400px] rounded-xl" />
       </div>
     )
   }
 
   return (
-    <div className="p-4 space-y-10 max-w-6xl mx-auto">
+    <div className="px-4 py-8 space-y-10 max-w-6xl mx-auto">
       {/* PROFILO */}
       <ArtistProfileCard artist={artist} />
-
-      
 
       {/* CONTENUTO A TABS */}
       <ContentTabs

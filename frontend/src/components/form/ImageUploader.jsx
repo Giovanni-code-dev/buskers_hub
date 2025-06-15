@@ -51,7 +51,7 @@ const ImageUploader = ({ files, setFiles }) => {
                 alt={`preview-${index}`}
                 className="w-full h-32 object-cover rounded border shadow"
               />
-              <div className="absolute top-1 left-1 bg-black/60 text-white text-xs px-2 py-0.5 rounded">
+              <div className="absolute top-1 left-1 bg-muted-foreground/70 text-background text-xs px-2 py-0.5 rounded">
                 {index === 0 ? "Copertina" : `#${index + 1}`}
               </div>
               <Button

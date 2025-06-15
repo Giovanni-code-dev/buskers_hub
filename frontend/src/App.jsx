@@ -35,6 +35,8 @@ import EditProfile from "@/pages/dashboard/artist/EditProfile" // nuovo import
 
 function App() {
   return (
+
+    
     <Routes>
       {/* =============================
           PAGINE SENZA LAYOUT
