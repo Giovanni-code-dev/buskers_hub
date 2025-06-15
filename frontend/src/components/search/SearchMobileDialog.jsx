@@ -166,8 +166,8 @@ const SearchMobileDialog = () => {
               <Button onClick={next}>Avanti →</Button>
             )}
             {step === steps.length - 1 && (
-              <Button onClick={submit} className="bg-red-500 hover:bg-red-600">
-                Cerca artisti
+              <Button onClick={submit} className="bg-primary hover:bg-primary/80 text-primary-foreground">
+              Cerca artisti
               </Button>
             )}
             <Button variant="ghost" onClick={reset}>

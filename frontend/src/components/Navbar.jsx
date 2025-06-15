@@ -61,13 +61,10 @@ const Navbar = () => {
   <img
     src={buskerHubLogo}
     alt="BuskersHub logo"
-    className="h-8 w-auto rounded-md"
+    className="h-16 w-auto rounded-md"
   />
-  <span className="text-xl font-bold hidden sm:inline">BuskersHub</span>
+  
 </Link>
-
-
-
         <div className="flex items-center gap-2">
           <div className="block md:hidden">
             <SearchMobilePopover />
@@ -127,7 +124,7 @@ const Navbar = () => {
 
                 <AlertDialog>
                   <AlertDialogTrigger asChild>
-                    <DropdownMenuItem className="text-red-600 focus:text-red-600" onSelect={(e) => e.preventDefault()}>
+                    <DropdownMenuItem className="text-destructive focus:text-destructive" onSelect={(e) => e.preventDefault()}>
                       <LogOut className="mr-2 h-4 w-4" />
                       Logout
                     </DropdownMenuItem>
@@ -180,3 +177,4 @@ const Navbar = () => {
 }
 
 export default Navbar
+

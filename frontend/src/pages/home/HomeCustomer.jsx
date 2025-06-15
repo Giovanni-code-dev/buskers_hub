@@ -3,7 +3,6 @@ import { useSearchParams } from "react-router-dom"
 import ArtistCard from "@/components/ArtistCard"
 import { format } from "date-fns"
 
-// Funzione per mescolare casualmente un array
 const shuffleArray = (array) =>
   array
     .map(value => ({ value, sort: Math.random() }))
@@ -21,7 +20,6 @@ const HomeCustomer = () => {
   useEffect(() => {
     const fetchArtists = async () => {
       const params = new URLSearchParams()
-
       if (city) params.set("city", city)
       if (category) params.set("category", category)
       if (date) params.set("date", date)
@@ -45,8 +43,10 @@ const HomeCustomer = () => {
   }, [city, category, date])
 
   return (
-    <div className="p-4 space-y-6">
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+    <div className="min-h-screen bg-background text-foreground p-6 space-y-6">
+
+
+      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-6">
         {filteredArtists.length > 0 ? (
           filteredArtists.map((artist) => (
             <ArtistCard key={artist._id} artist={artist} />

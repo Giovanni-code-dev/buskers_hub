@@ -2,14 +2,15 @@ import React from "react"
 import ReactDOM from "react-dom/client"
 import { BrowserRouter } from "react-router-dom"
 import App from "./App"
+import "@/styles/themes/dark-theme.css"
 import "./index.css"
 
-// Importa i context
 import { UserProvider } from "@/contexts/UserContext"
 import { ThemeProvider } from "@/contexts/ThemeContext"
-
-// Importa il componente Toaster (dal toast installato)
 import { Toaster } from "@/components/ui/toaster"
+
+// ✅ Forza il tema dark (usa le variabili .dark di index.css)
+document.documentElement.classList.add("dark")
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
@@ -18,7 +19,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         <ThemeProvider>
           <>
             <App />
-            <Toaster /> {/* Componente necessario per mostrare i toast */}
+            <Toaster />
           </>
         </ThemeProvider>
       </UserProvider>

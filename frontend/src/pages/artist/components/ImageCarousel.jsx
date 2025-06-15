@@ -7,8 +7,7 @@ const ImageCarousel = ({ images, onImageClick }) => {
             src={img.url}
             alt={`immagine-${i}`}
             onClick={() => onImageClick(i)}
-            className="h-28 w-28 sm:h-32 sm:w-32 md:h-36 md:w-36 lg:h-40 lg:w-40 object-cover rounded-md shadow-md cursor-pointer flex-shrink-0"
-          />
+            className="h-28 w-28 sm:h-32 sm:w-32 md:h-36 md:w-36 lg:h-40 lg:w-40 object-cover rounded-xl border border-border hover:ring-2 hover:ring-primary shadow transition-all cursor-pointer flex-shrink-0"          />
         ))}
       </div>
     )

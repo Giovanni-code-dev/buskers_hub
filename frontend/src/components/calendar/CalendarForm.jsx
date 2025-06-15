@@ -1,24 +1,29 @@
 import { useState } from "react"
-import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import {
   Select,
   SelectTrigger,
   SelectValue,
   SelectContent,
-  SelectItem
+  SelectItem,
 } from "@/components/ui/select"
 import { Label } from "@/components/ui/label"
 import { useToast } from "@/hooks/use-toast"
 import { useUser } from "@/contexts/UserContext"
 
-/**
- * Form per aggiungere una nuova voce al calendario (data disponibile o occupata).
- * Accetta una prop `onSuccess` per notificare il genitore in caso di aggiornamento.
- */
+import { Calendar } from "@/components/ui/calendar"
+import {
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+} from "@/components/ui/popover"
+import { CalendarIcon } from "lucide-react"
+import { format } from "date-fns"
+import { cn } from "@/lib/utils"
+
 const CalendarForm = ({ onSuccess }) => {
   const [date, setDate] = useState("")
-  const [status, setStatus] = useState("unavailable") // Valore di default
+  const [status, setStatus] = useState("unavailable")
   const { user } = useUser()
   const { toast } = useToast()
 
@@ -35,41 +40,74 @@ const CalendarForm = ({ onSuccess }) => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${user?.token}`
+          Authorization: `Bearer ${user?.token}`,
         },
-        body: JSON.stringify({ date, status })
+        body: JSON.stringify({ date, status }),
       })
 
       if (!res.ok) throw new Error("Errore nell’aggiunta della voce")
 
       toast({
         title: "Voce aggiunta",
-        description: `Hai segnato il ${date} come ${status === "unavailable" ? "occupato" : "disponibile"}.`
+        description: `Hai segnato il ${date} come ${
+          status === "unavailable" ? "occupato" : "disponibile"
+        }.`,
       })
 
       setDate("")
       setStatus("unavailable")
 
-      // Notifica il genitore per aggiornare la lista
       if (onSuccess) onSuccess()
     } catch (error) {
-      toast({ variant: "destructive", title: "Errore", description: error.message })
+      toast({
+        variant: "destructive",
+        title: "Errore",
+        description: error.message,
+      })
     }
   }
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {/* Selettore data visuale con correzione timezone */}
         <div>
-          <Label htmlFor="date">Data</Label>
-          <Input
-            id="date"
-            type="date"
-            value={date}
-            onChange={(e) => setDate(e.target.value)}
-          />
+          <Label>Data</Label>
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button
+                variant="outline"
+                className={cn(
+                  "w-full justify-start text-left font-normal",
+                  !date && "text-muted-foreground"
+                )}
+              >
+                <CalendarIcon className="mr-2 h-4 w-4" />
+                {date
+                  ? format(new Date(date), "dd/MM/yyyy")
+                  : "Seleziona una data"}
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-auto p-0">
+              <Calendar
+                mode="single"
+                selected={date ? new Date(date) : undefined}
+                onSelect={(selectedDate) => {
+                  if (selectedDate) {
+                    const localDate = new Date(
+                      selectedDate.getTime() - selectedDate.getTimezoneOffset() * 60000
+                    )
+                    setDate(localDate.toISOString().split("T")[0])
+                  }
+                }}
+                disabled={(d) => d < new Date()}
+                initialFocus
+              />
+            </PopoverContent>
+          </Popover>
         </div>
 
+        {/* Selettore stato */}
         <div>
           <Label htmlFor="status">Stato</Label>
           <Select value={status} onValueChange={setStatus}>
