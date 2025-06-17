@@ -7,7 +7,9 @@ const router = express.Router()
 router.get("/", async (req, res, next) => {
   try {
     const categories = await CategoryModel.find().sort({ name: 1 })
-    res.json(categories.map((cat) => cat.name)) // restituisce array di nomi
+    console.log("✅ Categories inviate:", categories) // <--- Aggiungi questo
+
+    res.json(categories) // restituisce array di oggetti con _id e name
   } catch (error) {
     next(error)
   }

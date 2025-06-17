@@ -5,6 +5,7 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { useUser } from "@/contexts/UserContext"
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
+import { Checkbox } from "@/components/ui/checkbox"
 
 const EditProfile = () => {
   const { user, setUser } = useUser()
@@ -24,6 +25,27 @@ const EditProfile = () => {
   const [locationData, setLocationData] = useState({ city: "", address: "" })
   const [avatarFile, setAvatarFile] = useState(null)
   const [avatarPreview, setAvatarPreview] = useState("")
+  const [availableCategories, setAvailableCategories] = useState([])
+  const [selectedCategories, setSelectedCategories] = useState([])
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/categories`)
+      const data = await res.json()
+      setAvailableCategories(data) // data deve contenere oggetti { _id, name }
+
+    }
+  
+    if (user?.token) fetchCategories()
+  }, [user?.token])
+
+  const toggleCategory = (id) => {
+    setSelectedCategories((prev) =>
+      prev.includes(id) ? prev.filter((catId) => catId !== id) : [...prev, id]
+    )
+  }
+  
+
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -50,6 +72,10 @@ const EditProfile = () => {
       })
 
       setAvatarPreview(data.avatar || "")
+
+
+  // 🟢 RISOLUTIVO: inizializza selectedCategories con gli _id
+  setSelectedCategories(data.categories?.map((cat) => cat._id) || [])
     }
 
     if (user?.token) fetchProfile()
@@ -70,6 +96,28 @@ const EditProfile = () => {
       setAvatarPreview(URL.createObjectURL(file))
     }
   }
+
+  const handleCategorySubmit = async () => {
+
+    console.log("👉 selectedCategories:", selectedCategories)
+    
+
+    const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/artist/update-profile`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${user?.token}`,
+      },
+      body: JSON.stringify({ categories: selectedCategories }),
+    })
+  
+    if (res.ok) {
+      alert("Categorie aggiornate con successo!")
+    } else {
+      alert("Errore durante l'aggiornamento delle categorie.")
+    }
+  }
+  
 
   const handleAvatarUpload = async (e) => {
     e.preventDefault()
@@ -96,28 +144,42 @@ const EditProfile = () => {
   }
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
 
+    
+    e.preventDefault()
+  
+    const body = {
+      ...formData,
+      categories: selectedCategories,
+    }
+
+    console.log("✅ Categories inviate nel body:", body.categories)
+  
     const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/artist/update-profile`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${user?.token}`,
       },
-      body: JSON.stringify(formData),
+      body: JSON.stringify(body),
     })
-
+  
     if (res.ok) {
       alert("Profilo aggiornato con successo!")
-      const updatedUser = { ...user, ...formData }
+      const updatedUser = { ...user, ...formData, categories: selectedCategories }
       localStorage.setItem("user", JSON.stringify(updatedUser))
       setUser(updatedUser)
     } else {
       alert("Errore durante l'aggiornamento del profilo.")
     }
   }
+  
 
   const handleLocationSubmit = async (e) => {
+
+    
+
+
     e.preventDefault()
 
     const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/artist/update-location`, {
@@ -160,6 +222,45 @@ const EditProfile = () => {
           </Button>
         </CardContent>
       </Card>
+
+
+      {/* Sezione categorie artistiche */}
+<Card className="w-full max-w-2xl shadow-lg rounded-2xl border border-muted">
+  <CardHeader>
+    <CardTitle className="text-xl font-semibold">Categorie artistiche</CardTitle>
+  </CardHeader>
+  <CardContent className="space-y-4">
+    {availableCategories.length === 0 ? (
+      <p className="text-sm text-muted-foreground">Caricamento categorie...</p>
+    ) : (
+      <div className="grid grid-cols-2 gap-3">
+{availableCategories.map((cat) => {
+
+  return cat && cat._id ? (
+    <label
+      key={cat._id}
+      className="flex items-center space-x-2 rounded-md border p-2 shadow-sm hover:bg-accent cursor-pointer"
+    >
+      <Checkbox
+        checked={selectedCategories.includes(cat._id)}
+        onChange={() => toggleCategory(cat._id)}
+      />
+      <span className="text-sm">{cat.name}</span>
+    </label>
+  ) : null
+})}
+
+
+
+      </div>
+    )}
+    <Button onClick={handleCategorySubmit} className="w-full mt-4">
+  Aggiorna categorie
+</Button>
+
+  </CardContent>
+</Card>
+
 
       {/* Sezione profilo */}
       <Card className="w-full max-w-2xl shadow-xl rounded-2xl border border-muted">

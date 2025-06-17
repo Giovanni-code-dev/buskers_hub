@@ -62,6 +62,11 @@ const getUserProfile = async (req, res, next) => {
  */
 const updateUserProfile = async (req, res, next) => {
   try {
+
+    console.log("🧪 Categorie ricevute nel body:", req.body.categories)
+    console.log("🟡 Richiesta in arrivo:", req.body)
+
+
     const allowedFields = [
       "name", "bio", "categories", "telefono", "website",
       "instagram", "facebook", "youtube", "portfolio", "tiktok"
@@ -69,8 +74,10 @@ const updateUserProfile = async (req, res, next) => {
 
     const updateData = {}
     for (const field of allowedFields) {
-      if (req.body[field]) updateData[field] = req.body[field]
+      if (req.body[field] !== undefined) updateData[field] = req.body[field]
     }
+    console.log("🟢 Campi da aggiornare:", updateData)
+
 
     const Model = getModelByUserType(req.userType)
     const user = await Model.findById(req.user._id)
@@ -95,11 +102,16 @@ const updateUserProfile = async (req, res, next) => {
 
     const updatedUser = await Model.findByIdAndUpdate(req.user._id, updateData, { new: true })
 
+    console.log("✅ Utente aggiornato:", updatedUser)
+
+
     res.json({
       message: "Profilo aggiornato con successo!",
       profile: updatedUser
     })
   } catch (error) {
+    console.error("❌ Errore durante updateUserProfile:", error)
+
     next(error)
   }
 }
