@@ -6,7 +6,7 @@ import { Label } from "@/components/ui/label"
 import { useUser } from "@/contexts/UserContext"
 import { cn } from "@/lib/utils"
 import ImageUploader from "@/components/form/ImageUploader"
-
+import { Trash2 } from "lucide-react"
 const Shows = () => {
   const { user } = useUser()
   const [shows, setShows] = useState([])
@@ -283,7 +283,7 @@ const Shows = () => {
                       className="absolute top-1 right-1 opacity-80 group-hover:opacity-100"
                       onClick={() => handleDeleteImage(img.public_id)}
                     >
-                      elimina🗑
+                      <Trash2 className="h-4 w-4" />
                     </Button>
                   </div>
                 ))}

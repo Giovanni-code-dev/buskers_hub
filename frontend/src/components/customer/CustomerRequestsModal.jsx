@@ -65,7 +65,8 @@ const CustomerRequestsModal = () => {
         {loading ? (
           <Skeleton className="h-20 w-full" />
         ) : error ? (
-          <p className="text-red-500 text-center">{error}</p>
+<p className="text-destructive text-center">{error}</p>
+
         ) : requests.length === 0 ? (
           <p className="text-center text-muted-foreground">Nessuna richiesta inviata.</p>
         ) : (
