@@ -54,6 +54,7 @@ const ArtistSchema = new Schema(
       },
     ],
 
+
     theme: {
       primaryColor: { type: String, default: "#111827" },       // Testo, pulsanti
       backgroundColor: { type: String, default: "#ffffff" },     // Sfondo
