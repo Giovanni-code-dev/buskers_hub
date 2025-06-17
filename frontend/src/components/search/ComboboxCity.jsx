@@ -40,7 +40,7 @@ const ComboboxCity = ({ value, onChange }) => {
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-full justify-between"
+          className="w-full justify-between text-sm"
         >
           {value || "Seleziona città"}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -67,9 +67,11 @@ const ComboboxCity = ({ value, onChange }) => {
                 <CommandItem
                   key={index}
                   value={city}
+                   className="text-sm"
                   onSelect={(value) => {
                     onChange(value)
                     setOpen(false)
+                    
                   }}
                 >
                   <Check

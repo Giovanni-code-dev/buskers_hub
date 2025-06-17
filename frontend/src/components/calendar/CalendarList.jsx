@@ -85,7 +85,8 @@ const CalendarList = ({ refreshKey }) => {
                 {format(new Date(entry.date), "dd/MM/yyyy")} —{" "}
                 <span
                   className={`font-medium ${
-                    entry.status === "unavailable" ? "text-red-500" : "text-green-600"
+                    entry.status === "unavailable" ? "text-destructive" : "text-emerald-600 dark:text-emerald-400"
+
                   }`}
                 >
                   {entry.status === "unavailable" ? "Occupato" : "Disponibile"}

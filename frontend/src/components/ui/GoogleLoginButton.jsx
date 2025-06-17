@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button"
 const GoogleLoginButton = ({ role = "customer" }) => {
   const handleGoogleLogin = () => {
     const backendURL = import.meta.env.VITE_BACKEND_URL
-    window.location.href = `${backendURL}/auth/google/${role}`
+    window.location.href = `${backendURL}/auth/google/register/${role}`
   }
 
   return (

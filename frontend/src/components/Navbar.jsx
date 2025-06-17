@@ -2,6 +2,8 @@ import { Link, useLocation } from "react-router-dom"
 import { useTheme } from "@/contexts/ThemeContext"
 import { useUser } from "@/contexts/UserContext"
 import useLogout from "@/hooks/useLogout"
+import buskerHubLogo from "@/assets/buskerHub.jpeg"
+
 
 import SearchBar from "@/components/SearchBar"
 import SearchMobilePopover from "@/components/search/SearchMobilePopover"
@@ -55,10 +57,14 @@ const Navbar = () => {
   return (
     <header className="sticky top-0 z-50 w-full px-4 py-3 bg-card text-card-foreground shadow-md">
       <div className="flex items-center justify-between w-full h-12 sm:h-auto">
-        <Link to="/home" className="text-xl font-bold">
-          BuskersHub
-        </Link>
-
+      <Link to="/home" className="flex items-center gap-2">
+  <img
+    src={buskerHubLogo}
+    alt="BuskersHub logo"
+    className="h-16 w-auto rounded-md"
+  />
+  
+</Link>
         <div className="flex items-center gap-2">
           <div className="block md:hidden">
             <SearchMobilePopover />
@@ -118,7 +124,7 @@ const Navbar = () => {
 
                 <AlertDialog>
                   <AlertDialogTrigger asChild>
-                    <DropdownMenuItem className="text-red-600 focus:text-red-600" onSelect={(e) => e.preventDefault()}>
+                    <DropdownMenuItem className="text-destructive focus:text-destructive" onSelect={(e) => e.preventDefault()}>
                       <LogOut className="mr-2 h-4 w-4" />
                       Logout
                     </DropdownMenuItem>
@@ -150,10 +156,10 @@ const Navbar = () => {
               <DropdownMenuContent align="end">
                 <DropdownMenuItem asChild><Link to="/dashboard/artist">Dashboard</Link></DropdownMenuItem>
                 <DropdownMenuItem asChild><Link to="/dashboard/artist/shows">Spettacoli</Link></DropdownMenuItem>
-            
-              
+
+
                 <DropdownMenuItem asChild><Link to="/dashboard/artist/calendar">Calendario</Link></DropdownMenuItem>
-               
+
               </DropdownMenuContent>
             </DropdownMenu>
           )}
@@ -171,3 +177,4 @@ const Navbar = () => {
 }
 
 export default Navbar
+

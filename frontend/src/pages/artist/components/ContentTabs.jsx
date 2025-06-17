@@ -20,8 +20,8 @@ import {
       <Tabs defaultValue="shows" className="w-full">
         <TabsList className="flex flex-wrap justify-center gap-2 mb-6">
           <TabsTrigger value="shows">Spettacoli</TabsTrigger>
-          <TabsTrigger value="packages">Pacchetti</TabsTrigger>
-          <TabsTrigger value="projects">Progetti</TabsTrigger>
+          <TabsTrigger value="packages">Coming soon</TabsTrigger>
+          <TabsTrigger value="projects">Coming soon</TabsTrigger>
         </TabsList>
   
         {/* === SHOWS === */}
