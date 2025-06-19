@@ -42,6 +42,14 @@ const ShowDetail = () => {
         if (!resShow.ok || !resImages.ok) throw new Error("Errore nel caricamento dati")
         const showData = await resShow.json()
         const imagesData = await resImages.json()
+
+        // Recupera dati artista se show.artist è solo un ID
+        if (showData.artist && typeof showData.artist === "string") {
+          const resArtist = await fetch(`${import.meta.env.VITE_BACKEND_URL}/artist/public/${showData.artist}`)
+          const artistData = await resArtist.json()
+          showData.artist = artistData
+        }
+
         setShow(showData)
         setImages(imagesData)
       } catch (error) {
@@ -83,7 +91,7 @@ const ShowDetail = () => {
           Authorization: `Bearer ${user.token}`,
         },
         body: JSON.stringify({
-          artist: show.artist,
+          artist: show.artist._id || show.artist,
           shows: [show._id],
           name: user.name,
           email: user.email,
@@ -108,7 +116,6 @@ const ShowDetail = () => {
     ? show.category.name
     : categoriesMap?.[categoryId] || "Categoria"
 
-  //  Stato loading
   if (loading) return <Skeleton className="h-72 w-full mt-10 rounded-xl" />
   if (!show) return <p className="text-center mt-10 text-red-500">Spettacolo non trovato.</p>
 
@@ -131,8 +138,10 @@ const ShowDetail = () => {
           </DialogTrigger>
           <DialogContent className="max-w-md">
             <DialogHeader className="text-center">
-              <DialogTitle>Contatta {show.artist?.name || "l'artista"}</DialogTitle>
-              <DialogDescription>
+              <DialogTitle className="text-center text-lg">
+                Contatta {show.artist?.name || "l'artista"}
+              </DialogTitle>
+              <DialogDescription className="text-center">
                 Compila il modulo per contattare l’artista riguardo questo spettacolo.
               </DialogDescription>
             </DialogHeader>
