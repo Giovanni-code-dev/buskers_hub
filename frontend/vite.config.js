@@ -9,4 +9,7 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'), //  ora puoi usare '@/...' negli import
     },
   },
+  build: {
+    sourcemap: true, // Abilita le sourcemap
+  },
 })

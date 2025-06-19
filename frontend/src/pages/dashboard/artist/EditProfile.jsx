@@ -8,7 +8,7 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
 import { Checkbox } from "@/components/ui/checkbox"
 
 const EditProfile = () => {
-  const { user, setUser } = useUser()
+  const { user, setUser, refreshUser} = useUser()
 
   const [formData, setFormData] = useState({
     name: "",
@@ -122,10 +122,10 @@ const EditProfile = () => {
   const handleAvatarUpload = async (e) => {
     e.preventDefault()
     if (!avatarFile) return alert("Seleziona un'immagine prima di inviare!")
-
+  
     const form = new FormData()
     form.append("avatar", avatarFile)
-
+  
     const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/artist/update-profile`, {
       method: "PATCH",
       headers: {
@@ -133,15 +133,43 @@ const EditProfile = () => {
       },
       body: form,
     })
-
+  
     if (res.ok) {
       alert("Avatar aggiornato con successo!")
       const data = await res.json()
-      setAvatarPreview(data.avatar) // Aggiorna l’anteprima con quella salvata
+      setAvatarPreview(data.avatar)
+  
+      await refreshUser()
+  
+      // 🟢 Rinfresca anche gli stati locali dopo il refresh
+      const profileRes = await fetch(`${import.meta.env.VITE_BACKEND_URL}/artist/profile`, {
+        headers: { Authorization: `Bearer ${user?.token}` },
+      })
+      const profileData = await profileRes.json()
+  
+      setFormData({
+        name: profileData.name || "",
+        bio: profileData.bio || "",
+        telefono: profileData.telefono || "",
+        website: profileData.website || "",
+        instagram: profileData.instagram || "",
+        facebook: profileData.facebook || "",
+        youtube: profileData.youtube || "",
+        portfolio: profileData.portfolio || "",
+        tiktok: profileData.tiktok || "",
+      })
+  
+      setLocationData({
+        city: profileData.location?.city || "",
+        address: profileData.location?.address || "",
+      })
+  
+      setSelectedCategories(profileData.categories?.map((cat) => cat._id) || [])
     } else {
       alert("Errore durante l'upload dell'avatar.")
     }
   }
+  
 
   const handleSubmit = async (e) => {
 

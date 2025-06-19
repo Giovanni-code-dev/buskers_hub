@@ -54,6 +54,8 @@ const Navbar = () => {
 
   if (location.pathname === "/") return null
 
+  console.log(" user nella Navbar:", user)
+
   return (
     <header className="sticky top-0 z-50 w-full px-4 py-3 bg-card text-card-foreground shadow-md">
       <div className="flex items-center justify-between w-full h-12 sm:h-auto">
@@ -73,10 +75,13 @@ const Navbar = () => {
           {user && (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Avatar className="h-8 w-8 cursor-pointer">
-                  <AvatarImage src={user.avatar} alt={user.name} />
-                  <AvatarFallback>{user.name[0]}</AvatarFallback>
-                </Avatar>
+              <Avatar className="h-8 w-8 cursor-pointer">
+  <AvatarImage src={user.avatar} alt={user.name} />
+  <AvatarFallback>
+    {user?.name?.[0] || "?"}
+  </AvatarFallback>
+</Avatar>
+
               </DropdownMenuTrigger>
 
               <DropdownMenuContent align="end">

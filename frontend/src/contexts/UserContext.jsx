@@ -35,7 +35,7 @@ export const UserProvider = ({ children }) => {
           }
         })
         .catch((err) => {
-          console.error("❌ Errore nella verifica utente:", err.message)
+          console.error("Errore nella verifica utente:", err.message)
           logout()
         })
     }
@@ -56,9 +56,33 @@ export const UserProvider = ({ children }) => {
     navigate("/") // oppure una pagina di login dedicata
   }
 
+// 🔄 Aggiorna i dati dell'utente dal backend
+const refreshUser = async () => {
+  try {
+    const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/${user.role}/me`, {
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+      },
+    })
+    if (!res.ok) throw new Error("Errore nel recupero utente aggiornato")
+    const freshUser = await res.json()
+
+    const mergedUser = { ...freshUser, token: user.token, role: user.role }
+
+
+    localStorage.setItem("user", JSON.stringify(mergedUser))
+    setUser(mergedUser)
+  } catch (err) {
+    console.error("Errore nel refreshUser:", err.message)
+  }
+}
+
+
+
+  
   return (
-    <UserContext.Provider value={{ user, login, logout }}>
-      {children}
+<UserContext.Provider value={{ user, login, logout, refreshUser, setUser }}>
+{children}
     </UserContext.Provider>
   )
 }
