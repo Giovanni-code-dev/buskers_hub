@@ -10,25 +10,21 @@ import {
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { Skeleton } from "@/components/ui/skeleton"
-import {
-  Carousel, CarouselContent, CarouselItem,
-  CarouselPrevious, CarouselNext,
-} from "@/components/ui/carousel"
 import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover"
-
+import { useToast } from "@/components/ui/use-toast"
 import ImageCarousel from "@/components/ui/ImageCarousel"
 
 const ShowDetail = () => {
   const { id } = useParams()
   const { user } = useUser()
+  const { toast } = useToast()
+
   const [show, setShow] = useState(null)
   const [images, setImages] = useState([])
   const [loading, setLoading] = useState(true)
-
   const [date, setDate] = useState("")
   const [message, setMessage] = useState("")
   const dialogRef = useRef()
-
   const [categoriesMap, setCategoriesMap] = useState({})
 
   // Recupero dati spettacolo e immagini
@@ -83,19 +79,23 @@ const ShowDetail = () => {
   // Invio richiesta preventivo
   const handleSubmit = async (e) => {
     e.preventDefault()
-  
+
     const artistId =
       typeof show.artist === "object" && show.artist._id
         ? show.artist._id
         : typeof show.artist === "string"
         ? show.artist
         : null
-  
+
     if (!artistId) {
-      alert("ID artista non valido. Impossibile inviare la richiesta.")
+      toast({
+        title: "Errore",
+        description: "ID artista non valido. Impossibile inviare la richiesta.",
+        variant: "destructive",
+      })
       return
     }
-  
+
     try {
       const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/requests`, {
         method: "POST",
@@ -112,18 +112,26 @@ const ShowDetail = () => {
           message,
         }),
       })
-  
+
       if (!res.ok) throw new Error("Errore nell'invio della richiesta")
-      alert(" Richiesta inviata con successo!")
+
+      toast({
+        title: "Richiesta inviata",
+        description: "La tua richiesta è stata inviata con successo all’artista.",
+      })
+
       setDate("")
       setMessage("")
       dialogRef.current?.click()
     } catch (err) {
       console.error(err)
-      alert(" Errore durante l'invio della richiesta.")
+      toast({
+        title: "Errore",
+        description: "Si è verificato un errore durante l'invio della richiesta.",
+        variant: "destructive",
+      })
     }
   }
-  
 
   const categoryId = typeof show?.category === "object" ? show.category._id : show?.category
   const categoryName = typeof show?.category === "object" && show.category.name
@@ -152,10 +160,10 @@ const ShowDetail = () => {
           </DialogTrigger>
           <DialogContent className="max-w-md">
             <DialogHeader className="text-center">
-              <DialogTitle className="text-center text-lg">
+              <DialogTitle className="text-lg">
                 Contatta {show.artist?.name || "l'artista"}
               </DialogTitle>
-              <DialogDescription className="text-center">
+              <DialogDescription>
                 Compila il modulo per contattare l’artista riguardo questo spettacolo.
               </DialogDescription>
             </DialogHeader>
