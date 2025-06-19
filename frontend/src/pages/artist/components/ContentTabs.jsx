@@ -9,7 +9,7 @@ import ImageCarousel from "./ImageCarousel"
 import SkeletonCard from "@/components/ui/SkeletonCard"
 import SkeletonCarousel from "@/components/ui/SkeletonCarousel"
 
-const ContentTabs = ({ shows, showImages, artist, onImageClick }) => {
+const ContentTabs = ({ shows, showImages, artist, onImageClick, categoriesMap }) => {
   // Funzione per ottenere l'URL embed di YouTube
   const getEmbedUrl = (url) => {
     const match = url?.match(/(?:\?v=|\.be\/)([\w-]{11})/)
@@ -38,7 +38,7 @@ const ContentTabs = ({ shows, showImages, artist, onImageClick }) => {
               ))}
             </div>
           ) : (
-            <CardGrid items={shows} type="shows" />
+<CardGrid items={shows} type="shows" categoriesMap={categoriesMap} />
           )}
 
           {/* Skeleton per il carosello immagini */}

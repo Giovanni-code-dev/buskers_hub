@@ -49,6 +49,27 @@ const ArtistPublicPage = () => {
     fetchAll()
   }, [id])
 
+  const [categoriesMap, setCategoriesMap] = useState({})
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const res = await fetch("https://buskers-hub.onrender.com/categories")
+        const data = await res.json()
+        const map = {}
+        data.forEach((cat) => {
+          map[cat._id] = cat.name
+        })
+        setCategoriesMap(map)
+      } catch (error) {
+        console.error("Errore nel caricamento categorie:", error)
+      }
+    }
+  
+    fetchCategories()
+  }, [])
+  
+
   if (!artist) {
     return (
       <div className="flex flex-col justify-center items-center min-h-screen gap-4">
@@ -119,18 +140,25 @@ const ArtistPublicPage = () => {
                 Portfolio
               </a>
             )}
-            {artist.categories?.length > 0 && (
-              <div className="flex flex-wrap gap-2">
-                {artist.categories.map((cat) => (
-                  <span
-                    key={typeof cat === "object" ? cat._id : cat}
-                    className="bg-muted text-muted-foreground text-xs px-2 py-1 rounded-full"
-                  >
-                    {typeof cat === "object" && cat.name ? cat.name : String(cat)}
-                  </span>
-                ))}
-              </div>
-            )}
+{artist.categories?.length > 0 && (
+  <div className="flex flex-wrap gap-2">
+    {artist.categories.map((catId) => {
+      const id = typeof catId === "object" ? catId._id : catId
+      const name = typeof catId === "object" && catId.name
+        ? catId.name
+        : categoriesMap[id] || "Categoria sconosciuta"
+      return (
+        <span
+          key={id}
+          className="bg-muted text-muted-foreground text-xs px-2 py-1 rounded-full"
+        >
+          {name}
+        </span>
+      )
+    })}
+  </div>
+)}
+
           </div>
         </div>
       </div>
@@ -148,6 +176,7 @@ const ArtistPublicPage = () => {
             shows={shows}
             showImages={showImages}
             artist={artist}
+            categoriesMap={categoriesMap}
             onImageClick={(index) => setSelectedImageIndex(index)}
           />
 

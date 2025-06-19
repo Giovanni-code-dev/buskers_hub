@@ -2,13 +2,28 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { useNavigate } from "react-router-dom"
 
-const ShowCard = ({ show }) => {
+const ShowCard = ({ show, categoriesMap }) => {
   const navigate = useNavigate()
   const images = show.images || []
+
+  // ✅ DEBUG LOG
+  console.log("📦 categoriesMap in ShowCard:", categoriesMap)
+  console.log("🎭 show.category:", show.category)
 
   // Trova immagine cover:true oppure prima disponibile
   const coverImage =
     images.find((img) => img?.cover === true) || images[0] || null
+
+  // Calcolo nome categoria in modo sicuro
+  const categoryId =
+    typeof show.category === "object"
+      ? show.category._id
+      : show.category
+
+  const categoryName =
+    typeof show.category === "object" && show.category.name
+      ? show.category.name
+      : categoriesMap?.[categoryId] || "Categoria"
 
   return (
     <Card
@@ -44,9 +59,7 @@ const ShowCard = ({ show }) => {
             variant="outline"
             className="text-[11px] px-2 py-0.5 rounded-full"
           >
-            {typeof show.category === "object"
-              ? show.category.name
-              : String(show.category)}
+            {categoryName}
           </Badge>
         )}
       </CardContent>

@@ -1,12 +1,12 @@
 import { Card, CardContent } from "@/components/ui/card"
 import ShowCard from "./ShowCard"
 
-const CardGrid = ({ items, type }) => {
+const CardGrid = ({ items, type,categoriesMap }) => {
   return (
     <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6">
       {items.map((item) =>
         type === "shows" ? (
-          <ShowCard key={item._id} show={item} />
+<ShowCard key={item._id} show={item} categoriesMap={categoriesMap} />
         ) : (
           <Card
             key={item._id}
