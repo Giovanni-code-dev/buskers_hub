@@ -7,9 +7,9 @@ import "./index.css"
 
 import { UserProvider } from "@/contexts/UserContext"
 import { ThemeProvider } from "@/contexts/ThemeContext"
-import { Toaster } from "@/components/ui/toaster"
+import { Toaster } from "sonner"
 
-// ✅ Forza il tema dark (usa le variabili .dark di index.css)
+// Forza il tema dark (usa le variabili .dark di index.css)
 document.documentElement.classList.add("dark")
 
 ReactDOM.createRoot(document.getElementById("root")).render(
@@ -19,7 +19,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         <ThemeProvider>
           <>
             <App />
-            <Toaster />
+            <Toaster richColors /> {/* ✅ Aggiunto qui */}
           </>
         </ThemeProvider>
       </UserProvider>
