@@ -83,6 +83,19 @@ const ShowDetail = () => {
   // Invio richiesta preventivo
   const handleSubmit = async (e) => {
     e.preventDefault()
+  
+    const artistId =
+      typeof show.artist === "object" && show.artist._id
+        ? show.artist._id
+        : typeof show.artist === "string"
+        ? show.artist
+        : null
+  
+    if (!artistId) {
+      alert("ID artista non valido. Impossibile inviare la richiesta.")
+      return
+    }
+  
     try {
       const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/requests`, {
         method: "POST",
@@ -91,7 +104,7 @@ const ShowDetail = () => {
           Authorization: `Bearer ${user.token}`,
         },
         body: JSON.stringify({
-          artist: show.artist._id || show.artist,
+          artist: artistId,
           shows: [show._id],
           name: user.name,
           email: user.email,
@@ -99,7 +112,7 @@ const ShowDetail = () => {
           message,
         }),
       })
-
+  
       if (!res.ok) throw new Error("Errore nell'invio della richiesta")
       alert(" Richiesta inviata con successo!")
       setDate("")
@@ -110,6 +123,7 @@ const ShowDetail = () => {
       alert(" Errore durante l'invio della richiesta.")
     }
   }
+  
 
   const categoryId = typeof show?.category === "object" ? show.category._id : show?.category
   const categoryName = typeof show?.category === "object" && show.category.name
