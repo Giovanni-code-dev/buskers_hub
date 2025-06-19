@@ -1,52 +1,44 @@
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
-import { Skeleton } from "@/components/ui/skeleton"
 import ArtistProfileCard from "./components/ArtistProfileCard"
 import ContentTabs from "./components/ContentTabs"
 import ImageModal from "./components/ImageModal"
+import { Loader2 } from "lucide-react"
+import {
+  Globe,
+  Instagram,
+  Facebook,
+  Youtube,
+  FileDown,
+  MapPin,
+  Link as LinkIcon,
+  Phone,
+} from "lucide-react"
 
 const ArtistPublicPage = () => {
   const { id } = useParams()
   const [artist, setArtist] = useState(null)
   const [shows, setShows] = useState([])
-  const [packages, setPackages] = useState([])
-  const [projects, setProjects] = useState([])
-
   const [showImages, setShowImages] = useState([])
-  const [packageImages, setPackageImages] = useState([])
-  const [projectImages, setProjectImages] = useState([])
   const [selectedImageIndex, setSelectedImageIndex] = useState(null)
-  const [selectedImageGroup, setSelectedImageGroup] = useState("")
-
   const [loading, setLoading] = useState(true)
-
-  console.log("Caricamento oggetto artist:", artist)
 
   useEffect(() => {
     const fetchAll = async () => {
       try {
-        const [artistRes, showsRes, packagesRes, projectsRes] = await Promise.all([
+        const [artistRes, showsRes] = await Promise.all([
           fetch(`${import.meta.env.VITE_BACKEND_URL}/artist/public/${id}`),
           fetch(`${import.meta.env.VITE_BACKEND_URL}/shows/artist/${id}`),
-          fetch(`${import.meta.env.VITE_BACKEND_URL}/packages/artist/${id}`),
-          fetch(`${import.meta.env.VITE_BACKEND_URL}/projects/artist/${id}`),
         ])
 
-        const [artistData, showsData, packagesData, projectsData] = await Promise.all([
+        const [artistData, showsData] = await Promise.all([
           artistRes.json(),
           showsRes.json(),
-          packagesRes.json(),
-          projectsRes.json(),
         ])
 
         setArtist(artistData)
         setShows(showsData)
-        setPackages(packagesData)
-        setProjects(projectsData)
-
         setShowImages(showsData.flatMap((s) => s.images || []))
-        setPackageImages(packagesData.flatMap((p) => p.images || []))
-        setProjectImages(projectsData.flatMap((prj) => prj.images || []))
       } catch (error) {
         console.error("Errore nel caricamento:", error)
       } finally {
@@ -57,48 +49,117 @@ const ArtistPublicPage = () => {
     fetchAll()
   }, [id])
 
-  if (loading || !artist) {
+  if (!artist) {
     return (
-      <div className="flex justify-center items-center min-h-[400px]">
-        <Skeleton className="w-[300px] h-[400px] rounded-xl" />
+      <div className="flex flex-col justify-center items-center min-h-screen gap-4">
+        <Loader2 className="w-10 h-10 animate-spin text-muted-foreground" />
+        <p className="text-sm text-muted-foreground">Caricamento artista...</p>
       </div>
     )
   }
 
   return (
     <div className="px-4 py-8 space-y-10 max-w-6xl mx-auto">
-      {/* PROFILO */}
-      <ArtistProfileCard artist={artist} />
+      {/* PROFILO ARTISTA */}
+      <div className="flex flex-col md:flex-row gap-6 items-start">
+        <div className="w-full md:w-1/3 max-w-sm">
+          <ArtistProfileCard artist={artist} />
+        </div>
 
-      {/* CONTENUTO A TABS */}
-      <ContentTabs
-        shows={shows}
-        packages={packages}
-        projects={projects}
-        showImages={showImages}
-        packageImages={packageImages}
-        projectImages={projectImages}
-        onImageClick={(index, group) => {
-          setSelectedImageIndex(index)
-          setSelectedImageGroup(group)
-        }}
-      />
+        {/* DETTAGLI */}
+        <div className="flex-1 space-y-4">
+          {artist.location?.city && (
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+              <MapPin className="w-4 h-4" />
+              {artist.location.city}
+            </div>
+          )}
 
-      {/* MODALE IMMAGINE */}
-      <ImageModal
-        images={
-          selectedImageGroup === "shows"
-            ? showImages
-            : selectedImageGroup === "packages"
-            ? packageImages
-            : selectedImageGroup === "projects"
-            ? projectImages
-            : []
-        }
-        selectedIndex={selectedImageIndex}
-        onClose={() => setSelectedImageIndex(null)}
-        setSelectedIndex={setSelectedImageIndex}
-      />
+          {/* CONTATTI E SOCIAL */}
+          <div className="grid grid-cols-1 gap-2 text-sm mt-4">
+            {artist.telefono && (
+              <a href={`tel:${artist.telefono}`} className="flex items-center gap-2 hover:text-primary transition-colors">
+                <Phone className="w-4 h-4" />
+                {artist.telefono}
+              </a>
+            )}
+            {artist.website && (
+              <a href={artist.website} target="_blank" rel="noreferrer" className="flex items-center gap-2 hover:text-primary transition-colors">
+                <Globe className="w-4 h-4" />
+                Sito web
+              </a>
+            )}
+            {artist.instagram && (
+              <a href={artist.instagram} target="_blank" rel="noreferrer" className="flex items-center gap-2 hover:text-primary transition-colors">
+                <Instagram className="w-4 h-4" />
+                Instagram
+              </a>
+            )}
+            {artist.facebook && (
+              <a href={artist.facebook} target="_blank" rel="noreferrer" className="flex items-center gap-2 hover:text-primary transition-colors">
+                <Facebook className="w-4 h-4" />
+                Facebook
+              </a>
+            )}
+            {artist.youtube && (
+              <a href={artist.youtube} target="_blank" rel="noreferrer" className="flex items-center gap-2 hover:text-primary transition-colors">
+                <Youtube className="w-4 h-4" />
+                YouTube
+              </a>
+            )}
+            {artist.tiktok && (
+              <a href={artist.tiktok} target="_blank" rel="noreferrer" className="flex items-center gap-2 hover:text-primary transition-colors">
+                <LinkIcon className="w-4 h-4" />
+                TikTok
+              </a>
+            )}
+            {artist.portfolio && (
+              <a href={artist.portfolio} target="_blank" rel="noreferrer" className="flex items-center gap-2 hover:text-primary transition-colors">
+                <FileDown className="w-4 h-4" />
+                Portfolio
+              </a>
+            )}
+            {artist.categories?.length > 0 && (
+              <div className="flex flex-wrap gap-2">
+                {artist.categories.map((cat) => (
+                  <span
+                    key={typeof cat === "object" ? cat._id : cat}
+                    className="bg-muted text-muted-foreground text-xs px-2 py-1 rounded-full"
+                  >
+                    {typeof cat === "object" && cat.name ? cat.name : String(cat)}
+                  </span>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* LOADING SECONDARIO */}
+      {loading ? (
+        <div className="flex flex-col items-center justify-center py-16 gap-4">
+          <Loader2 className="w-8 h-8 animate-spin text-muted-foreground" />
+          <p className="text-sm text-muted-foreground">Caricamento contenuti artistici...</p>
+        </div>
+      ) : (
+        <>
+          {/* CONTENUTO TABS */}
+          <ContentTabs
+            shows={shows}
+            showImages={showImages}
+            artist={artist}
+            onImageClick={(index) => setSelectedImageIndex(index)}
+          />
+
+          {/* MODALE IMMAGINE */}
+          <ImageModal
+            images={showImages}
+            selectedIndex={selectedImageIndex}
+            onClose={() => setSelectedImageIndex(null)}
+            setSelectedIndex={setSelectedImageIndex}
+          />
+        </>
+      )}
     </div>
   )
 }

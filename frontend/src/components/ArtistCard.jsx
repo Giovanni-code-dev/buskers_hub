@@ -1,60 +1,63 @@
 import { Card, CardContent } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
 import { Link } from "react-router-dom"
+import { MapPin } from "lucide-react"
 
 const ArtistCard = ({ artist }) => {
-  const primaryColor = artist.theme?.primaryColor || "#e0e0e0"
+  const primaryColor = artist.theme?.primaryColor || "#d1d5db"
   const backgroundColor = artist.theme?.backgroundColor || "#ffffff"
   const fontFamily = artist.theme?.fontFamily || "inherit"
 
+  const displayCategories = artist.categories?.slice(0, 2) || []
+  const extraCount = artist.categories?.length > 2 ? artist.categories.length - 2 : 0
+
   return (
-    <div className="transform transition-transform duration-500 hover:scale-105 hover:z-10">
-      <Card
-        className="shadow-lg hover:shadow-xl transition-all border-2 h-full flex flex-col"
-        style={{
-          borderColor: primaryColor,
-          backgroundColor,
-          fontFamily
-        }}
-      >
-        <CardContent className="p-4 flex flex-col justify-between h-full">
-          <div className="space-y-3">
-            <img
-              src={artist.avatar}
-              alt={artist.name}
-              className="w-24 h-24 rounded-full mx-auto object-cover border-4"
-              style={{ borderColor: primaryColor }}
-            />
-<div className="text-center space-y-1">
-  <h3 className="text-lg font-semibold truncate sm:text-base">
-    {artist.name}
-  </h3>
-
-  {artist.categories?.length > 0 && (
-    <p className="text-xs text-muted-foreground ">
-      {artist.categories.map((cat) =>
-        typeof cat === "object" && cat.name ? cat.name : String(cat)
-      ).join(", ")}
-    </p>
-  )}
-
-  {(artist.city || artist.location?.city) && (
-    <p className="text-xs ">
-
-      {artist.city || artist.location.city}
-    </p>
-  )}
+    <Card
+      className="w-full overflow-hidden rounded-xl shadow hover:shadow-lg transition-all border"
+      style={{ backgroundColor, fontFamily }}
+    >
+      {/* Immagine sopra: altezza fissa, copre tutta la larghezza */}
+      <div className="relative w-full h-52 sm:h-60 md:h-56">
+  <img
+    src={artist.avatar}
+    alt={artist.name}
+    className="w-full h-full object-cover"
+  />
 </div>
-          </div>
 
-          <div className="text-center mt-4">
-            <Button asChild className="w-full">
-              <Link to={`/artist/${artist._id}`}>Scopri di più</Link>
-            </Button>
+
+      {/* Contenuto testo */}
+      <CardContent className="pt-3 pb-4 px-4 space-y-2">
+        {/* Nome */}
+        <Link to={`/artist/${artist._id}`}>
+          <h3 className="text-sm font-medium truncate hover:underline">
+            {artist.name}
+          </h3>
+        </Link>
+
+        {/* Badge categorie */}
+        <div className="flex flex-wrap gap-1">
+          {displayCategories.map((cat, index) => (
+            <span
+              key={index}
+              className="bg-muted text-muted-foreground text-[11px] px-2 py-0.5 rounded-full"
+            >
+              {typeof cat === "object" && cat.name ? cat.name : String(cat)}
+            </span>
+          ))}
+          {extraCount > 0 && (
+            <span className="text-muted-foreground text-xs">+{extraCount}</span>
+          )}
+        </div>
+
+        {/* Città */}
+        {(artist.city || artist.location?.city) && (
+          <div className="flex items-center gap-1 text-xs text-muted-foreground">
+            <MapPin className="w-3 h-3" />
+            <span>{artist.city || artist.location.city}</span>
           </div>
-        </CardContent>
-      </Card>
-    </div>
+        )}
+      </CardContent>
+    </Card>
   )
 }
 
