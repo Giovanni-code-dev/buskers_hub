@@ -9,6 +9,9 @@ import SearchBar from "@/components/SearchBar"
 import SearchMobilePopover from "@/components/search/SearchMobilePopover"
 import CustomerRequestsModal from "@/components/customer/CustomerRequestsModal"
 
+import ArtistLoginModal from "@/components/auth/ArtistLoginModal"
+import CustomerLoginModal from "@/components/auth/CustomerLoginModal"
+
 import {
   Avatar,
   AvatarImage,
@@ -59,15 +62,39 @@ const Navbar = () => {
   return (
     <header className="sticky top-0 z-50 w-full px-4 py-3 bg-card text-card-foreground shadow-md">
       <div className="flex items-center justify-between w-full h-12 sm:h-auto">
-      <Link to="/home" className="flex items-center gap-2">
-  <img
-    src={buskerHubLogo}
-    alt="BuskersHub logo"
-    className="h-16 w-auto rounded-md"
-  />
-  
-</Link>
+        <Link to="/home" className="flex items-center gap-2">
+          <img
+            src={buskerHubLogo}
+            alt="BuskersHub logo"
+            className="h-16 w-auto rounded-md"
+          />
+
+        </Link>
         <div className="flex items-center gap-2">
+
+
+        {!user && (
+  <DropdownMenu>
+    <DropdownMenuTrigger asChild>
+      <Button variant="outline">Accedi</Button>
+    </DropdownMenuTrigger>
+    <DropdownMenuContent align="end">
+      <DropdownMenuItem asChild>
+        <ArtistLoginModal
+          trigger={<Button variant="ghost" className="w-full justify-start">Accedi come Artista</Button>}
+        />
+      </DropdownMenuItem>
+      <DropdownMenuItem asChild>
+        <CustomerLoginModal
+          trigger={<Button variant="ghost" className="w-full justify-start">Accedi come Cliente</Button>}
+        />
+      </DropdownMenuItem>
+    </DropdownMenuContent>
+  </DropdownMenu>
+)}
+
+
+
           <div className="block md:hidden">
             <SearchMobilePopover />
           </div>
@@ -75,12 +102,12 @@ const Navbar = () => {
           {user && (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-              <Avatar className="h-8 w-8 cursor-pointer">
-  <AvatarImage src={user.avatar} alt={user.name} />
-  <AvatarFallback>
-    {user?.name?.[0] || "?"}
-  </AvatarFallback>
-</Avatar>
+                <Avatar className="h-8 w-8 cursor-pointer">
+                  <AvatarImage src={user.avatar} alt={user.name} />
+                  <AvatarFallback>
+                    {user?.name?.[0] || "?"}
+                  </AvatarFallback>
+                </Avatar>
 
               </DropdownMenuTrigger>
 
