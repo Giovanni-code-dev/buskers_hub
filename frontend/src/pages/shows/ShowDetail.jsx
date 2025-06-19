@@ -18,8 +18,6 @@ import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover
 
 import ImageCarousel from "@/components/ui/ImageCarousel"
 
-
-
 const ShowDetail = () => {
   const { id } = useParams()
   const { user } = useUser()
@@ -31,7 +29,9 @@ const ShowDetail = () => {
   const [message, setMessage] = useState("")
   const dialogRef = useRef()
 
-  // 🔁 Recupero dati spettacolo e immagini
+  const [categoriesMap, setCategoriesMap] = useState({})
+
+  // Recupero dati spettacolo e immagini
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -42,6 +42,14 @@ const ShowDetail = () => {
         if (!resShow.ok || !resImages.ok) throw new Error("Errore nel caricamento dati")
         const showData = await resShow.json()
         const imagesData = await resImages.json()
+
+        // Recupera dati artista se show.artist è solo un ID
+        if (showData.artist && typeof showData.artist === "string") {
+          const resArtist = await fetch(`${import.meta.env.VITE_BACKEND_URL}/artist/public/${showData.artist}`)
+          const artistData = await resArtist.json()
+          showData.artist = artistData
+        }
+
         setShow(showData)
         setImages(imagesData)
       } catch (error) {
@@ -54,7 +62,25 @@ const ShowDetail = () => {
     fetchData()
   }, [id])
 
-  // ✅ Invio richiesta preventivo
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const res = await fetch("https://buskers-hub.onrender.com/categories")
+        const data = await res.json()
+        const map = {}
+        data.forEach((cat) => {
+          map[cat._id] = cat.name
+        })
+        setCategoriesMap(map)
+      } catch (error) {
+        console.error("Errore nel caricamento categorie:", error)
+      }
+    }
+
+    fetchCategories()
+  }, [])
+
+  // Invio richiesta preventivo
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
@@ -65,7 +91,7 @@ const ShowDetail = () => {
           Authorization: `Bearer ${user.token}`,
         },
         body: JSON.stringify({
-          artist: show.artist,
+          artist: show.artist._id || show.artist,
           shows: [show._id],
           name: user.name,
           email: user.email,
@@ -75,17 +101,21 @@ const ShowDetail = () => {
       })
 
       if (!res.ok) throw new Error("Errore nell'invio della richiesta")
-      alert("✅ Richiesta inviata con successo!")
+      alert(" Richiesta inviata con successo!")
       setDate("")
       setMessage("")
       dialogRef.current?.click()
     } catch (err) {
       console.error(err)
-      alert("❌ Errore durante l'invio della richiesta.")
+      alert(" Errore durante l'invio della richiesta.")
     }
   }
 
-  // 🔄 Stato loading
+  const categoryId = typeof show?.category === "object" ? show.category._id : show?.category
+  const categoryName = typeof show?.category === "object" && show.category.name
+    ? show.category.name
+    : categoriesMap?.[categoryId] || "Categoria"
+
   if (loading) return <Skeleton className="h-72 w-full mt-10 rounded-xl" />
   if (!show) return <p className="text-center mt-10 text-red-500">Spettacolo non trovato.</p>
 
@@ -94,14 +124,13 @@ const ShowDetail = () => {
       <h1 className="text-4xl font-bold text-center">{show.title}</h1>
       <p className="text-center text-muted-foreground">{show.description}</p>
       <p className="text-center">
-        <strong>Categoria:</strong> {show.category} — <strong>Durata:</strong> {show.durationMinutes} minuti
+        <strong>Categoria:</strong> {categoryName} — <strong>Durata:</strong> {show.durationMinutes} minuti
       </p>
-{/* Carosello Immagini */}
-<ImageCarousel images={images} />
 
+      {/* Carosello Immagini */}
+      <ImageCarousel images={images} />
 
-
-      {/* 📩 Modale richiesta preventivo */}
+      {/* Modale richiesta preventivo */}
       <div className="text-center mt-8">
         <Dialog>
           <DialogTrigger asChild>
@@ -109,14 +138,14 @@ const ShowDetail = () => {
           </DialogTrigger>
           <DialogContent className="max-w-md">
             <DialogHeader>
-              <DialogTitle>Richiesta preventivo</DialogTitle>
+              <DialogTitle>Contatta {show.artist?.name || "l'artista"}</DialogTitle>
               <DialogDescription>
                 Compila il modulo per contattare l’artista riguardo questo spettacolo.
               </DialogDescription>
             </DialogHeader>
 
             <form onSubmit={handleSubmit} className="space-y-4">
-              {/* 📅 Data */}
+              {/* Data */}
               <div>
                 <label className="text-sm block mb-1">Data evento</label>
                 <Popover>
@@ -144,7 +173,7 @@ const ShowDetail = () => {
                 </Popover>
               </div>
 
-              {/* 📝 Messaggio */}
+              {/* Messaggio */}
               <div>
                 <label className="text-sm">Messaggio</label>
                 <Textarea
