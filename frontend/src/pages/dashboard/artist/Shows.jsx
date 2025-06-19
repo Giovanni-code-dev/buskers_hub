@@ -44,7 +44,11 @@ const Shows = () => {
       const data = await res.json()
       setCategories(data)
     } catch (err) {
-      toast({ title: "Errore", description: "Categorie non caricate", variant: "destructive" })
+      toast({
+        title: "Errore",
+        description: "Categorie non caricate",
+        variant: "destructive",
+      })
     }
   }
 
@@ -106,16 +110,28 @@ const Shows = () => {
 
       if (isEdit) {
         setShows((prev) => prev.map((s) => (s._id === editId ? saved.show : s)))
-        toast({ title: "Modificato", description: "Spettacolo aggiornato", variant: "default" })
+        toast({
+          title: "Modificato",
+          description: "Spettacolo aggiornato",
+          variant: "success",
+        })
       } else {
         setShows((prev) => [saved, ...prev])
-        toast({ title: "Aggiunto", description: "Spettacolo aggiunto", variant: "default" })
+        toast({
+          title: "Aggiunto",
+          description: "Spettacolo aggiunto",
+          variant: "success",
+        })
       }
 
       resetForm()
     } catch (err) {
       console.error("Errore nel submit:", err)
-      toast({ title: "Errore", description: "Salvataggio fallito", variant: "destructive" })
+      toast({
+        title: "Errore",
+        description: "Salvataggio fallito",
+        variant: "destructive",
+      })
     }
   }
 
@@ -143,10 +159,18 @@ const Shows = () => {
 
       if (!res.ok) throw new Error("Errore durante l'eliminazione")
       setShows((prev) => prev.filter((s) => s._id !== id))
-      toast({ title: "Eliminato", description: "Spettacolo rimosso", variant: "default" })
+      toast({
+        title: "Eliminato",
+        description: "Spettacolo rimosso",
+        variant: "success",
+      })
     } catch (err) {
       console.error(err)
-      toast({ title: "Errore", description: "Eliminazione fallita", variant: "destructive" })
+      toast({
+        title: "Errore",
+        description: "Eliminazione fallita",
+        variant: "destructive",
+      })
     }
   }
 
@@ -180,10 +204,18 @@ const Shows = () => {
 
       const data = await res.json()
       setExistingImages(data.images)
-      toast({ title: "Successo", description: "Copertina aggiornata", variant: "default" })
+      toast({
+        title: "Successo",
+        description: "Copertina aggiornata",
+        variant: "success",
+      })
     } catch (err) {
       console.error(err)
-      toast({ title: "Errore", description: "Salvataggio copertina fallito", variant: "destructive" })
+      toast({
+        title: "Errore",
+        description: "Salvataggio copertina fallito",
+        variant: "destructive",
+      })
     }
   }
 
@@ -203,10 +235,18 @@ const Shows = () => {
       if (!res.ok) throw new Error("Errore durante l'eliminazione")
 
       setExistingImages((prev) => prev.filter((img) => img.public_id !== public_id))
-      toast({ title: "Eliminata", description: "Immagine rimossa", variant: "default" })
+      toast({
+        title: "Eliminata",
+        description: "Immagine rimossa",
+        variant: "success",
+      })
     } catch (err) {
       console.error(err)
-      toast({ title: "Errore", description: "Eliminazione immagine fallita", variant: "destructive" })
+      toast({
+        title: "Errore",
+        description: "Eliminazione immagine fallita",
+        variant: "destructive",
+      })
     }
   }
 
@@ -252,9 +292,8 @@ const Shows = () => {
               <option value="">Seleziona una categoria</option>
               {categories.map((cat) => (
                 <option key={cat._id} value={cat._id}>
-  {cat.name.charAt(0).toUpperCase() + cat.name.slice(1)}
-</option>
-
+                  {cat.name.charAt(0).toUpperCase() + cat.name.slice(1)}
+                </option>
               ))}
             </select>
           </div>
