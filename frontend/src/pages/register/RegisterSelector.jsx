@@ -29,7 +29,7 @@ const RegisterSelector = () => {
           <div className="space-y-3">
             <Button className="w-full" onClick={() => navigate("/register/artist")}>
               <GiDramaMasks size={24} className="mr-2" />
-              Registrati come Artista
+              Registrati come Artist
             </Button>
 
             <Button variant="secondary" className="w-full" onClick={() => navigate("/register/customer")}>

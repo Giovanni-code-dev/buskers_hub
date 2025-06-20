@@ -19,7 +19,7 @@ const LoginDropdown = () => {
           <ArtistLoginModal
             trigger={
               <Button variant="ghost" className="w-full justify-start">
-                Accedi come Artista
+                Accedi come Artist
               </Button>
             }
           />
