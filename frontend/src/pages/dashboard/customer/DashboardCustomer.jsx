@@ -8,7 +8,10 @@ const DashboardCustomer = () => {
           <h1 className="text-2xl font-bold">Benvenuto User!</h1>
           <p className="text-muted-foreground">
           Scopri talenti straordinari, seleziona i tuoi preferiti e invia la tua richiesta.
-          La magia comincia da qui.          </p>
+          <Link to="/home" className="text-blue-600 underline hover:text-blue-800 transition-colors">
+    La magia comincia da qui.
+  </Link>
+                   </p>
         </CardContent>
       </Card>
     </div>

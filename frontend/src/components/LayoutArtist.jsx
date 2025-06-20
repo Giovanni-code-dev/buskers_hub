@@ -1,6 +1,8 @@
 import { NavLink, Outlet } from "react-router-dom"
 import Navbar from "@/components/Navbar"
 import { useUser } from "@/contexts/UserContext"
+import Footer from "@/components/Footer"
+
 
 const LayoutArtist = () => {
   const { user } = useUser()
@@ -32,6 +34,7 @@ const LayoutArtist = () => {
           <Outlet />
         </main>
       </div>
+      <Footer />
     </div>
   )
 }
