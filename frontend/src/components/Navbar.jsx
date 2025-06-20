@@ -81,12 +81,12 @@ const Navbar = () => {
     <DropdownMenuContent align="end">
       <DropdownMenuItem asChild>
         <ArtistLoginModal
-          trigger={<Button variant="ghost" className="w-full justify-start">Accedi come Artista</Button>}
+          trigger={<Button variant="ghost" className="w-full justify-start">Accedi come Artist</Button>}
         />
       </DropdownMenuItem>
       <DropdownMenuItem asChild>
         <CustomerLoginModal
-          trigger={<Button variant="ghost" className="w-full justify-start">Accedi come Cliente</Button>}
+          trigger={<Button variant="ghost" className="w-full justify-start">Accedi come User</Button>}
         />
       </DropdownMenuItem>
     </DropdownMenuContent>

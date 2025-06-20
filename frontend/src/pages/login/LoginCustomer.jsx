@@ -33,7 +33,7 @@ const LoginCustomer = () => {
     <div className="min-h-screen flex items-center justify-center bg-background px-4">
       <Card className="w-full max-w-md shadow-lg">
         <CardContent className="p-6 space-y-4">
-          <h1 className="text-2xl font-bold text-center">Login Cliente</h1>
+          <h1 className="text-2xl font-bold text-center">Login User</h1>
 
           <Input
             type="email"

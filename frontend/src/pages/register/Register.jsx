@@ -22,7 +22,7 @@ const Register = () => {
 
             <Button variant="secondary" className="w-full" onClick={() => navigate("/register/customer")}>
               <GiAngelWings className="mr-2" size={24} />
-              Registrati come Cliente
+              Registrati come User
             </Button>
 
             <hr className="my-4" />

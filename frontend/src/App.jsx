@@ -7,7 +7,7 @@ import Layout from "@/components/Layout"
 import LayoutArtist from "@/components/LayoutArtist"
 
 // Pagine login & registrazione (senza layout)
-import LoginSelector from "@/pages/login/LoginSelector"
+import LoginSelectorModal from "@/pages/login/LoginSelectorModal"
 import LoginCustomer from "@/pages/login/LoginCustomer"
 import LoginArtist from "@/pages/login/LoginArtist"
 import RedirectGoogle from "@/pages/RedirectGoogle"
@@ -35,13 +35,11 @@ import EditProfile from "@/pages/dashboard/artist/EditProfile" // nuovo import
 
 function App() {
   return (
-
-    
     <Routes>
       {/* =============================
           PAGINE SENZA LAYOUT
       ============================== */}
-      <Route path="/" element={<LoginSelector />} />
+      <Route path="/" element={<LoginSelectorModal />} />
       <Route path="/login/customer" element={<LoginCustomer />} />
       <Route path="/login/artist" element={<LoginArtist />} />
       <Route path="/redirect-google" element={<RedirectGoogle />} />
@@ -79,7 +77,7 @@ function App() {
           <Route path="projects" element={<Project />} />
           <Route path="settings" element={<Settings />} />
           <Route path="calendar" element={<Calendar />} />
-          <Route path="edit-profile" element={<EditProfile />} /> {/* nuova rotta */}
+          <Route path="edit-profile" element={<EditProfile />} />
         </Route>
       </Route>
     </Routes>

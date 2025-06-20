@@ -19,31 +19,29 @@ const LoginSelector = () => {
   }, [user, navigate])
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background text-foreground px-4">
-      <Card className="w-full max-w-md shadow-lg">
-        <CardContent className="p-6 space-y-6 text-center">
-          <h1 className="text-2xl font-bold">Benvenuto in BuskersHub</h1>
-          <p className="text-muted-foreground">Accedi come Artista o Utente</p>
+    <Card className="w-full max-w-md shadow-lg">
+      <CardContent className="p-6 space-y-6 text-center">
+        <h1 className="text-2xl font-bold">Benvenuto in BuskersHub</h1>
+        <p className="text-muted-foreground">Accedi come Artist o User</p>
 
-          <div className="space-y-3">
-            <Button className="w-full" onClick={() => navigate("/login/artist")}>
-              <GiDramaMasks size={24} className="mr-2" />
-              Login come Artista
-            </Button>
+        <div className="space-y-3">
+          <Button className="w-full" onClick={() => navigate("/login/artist")}>
+            <GiDramaMasks size={24} className="mr-2" />
+            Login come Artist
+          </Button>
 
-            <Button variant="secondary" className="w-full" onClick={() => navigate("/login/customer")}>
-              <GiAngelWings size={24} className="mr-2" />
-              Login come Utente
-            </Button>
+          <Button variant="secondary" className="w-full" onClick={() => navigate("/login/customer")}>
+            <GiAngelWings size={24} className="mr-2" />
+            Login come User
+          </Button>
 
-            <hr className="my-4" />
+          <hr className="my-4" />
 
-            <GoogleLoginButton role="artist" />
-            <GoogleLoginButton role="customer" />
-          </div>
-        </CardContent>
-      </Card>
-    </div>
+          <GoogleLoginButton role="artist" />
+          <GoogleLoginButton role="customer" />
+        </div>
+      </CardContent>
+    </Card>
   )
 }
 

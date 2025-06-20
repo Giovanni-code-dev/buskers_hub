@@ -24,7 +24,7 @@ const RegisterSelector = () => {
       <Card className="w-full max-w-md shadow-lg">
         <CardContent className="p-6 space-y-6 text-center">
           <h1 className="text-2xl font-bold">Registrati </h1>
-          <p className="text-muted-foreground">Scegli se vuoi registrarti come artista o come cliente</p>
+          <p className="text-muted-foreground">Scegli se vuoi registrarti come artist o come user</p>
 
           <div className="space-y-3">
             <Button className="w-full" onClick={() => navigate("/register/artist")}>
@@ -34,7 +34,7 @@ const RegisterSelector = () => {
 
             <Button variant="secondary" className="w-full" onClick={() => navigate("/register/customer")}>
               <GiAngelWings size={24} className="mr-2" />
-              Registrati come Cliente
+              Registrati come User
             </Button>
 
             <hr className="my-4" />
