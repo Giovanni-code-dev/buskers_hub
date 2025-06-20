@@ -112,10 +112,12 @@ const Navbar = () => {
               </DropdownMenuTrigger>
 
               <DropdownMenuContent align="end">
-                <DropdownMenuItem>
-                  <User className="mr-2 h-4 w-4" />
-                  Profilo
-                </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+  <Link to="/dashboard/customer/profile">
+    <User className="mr-2 h-4 w-4" />
+    Profilo
+  </Link>
+</DropdownMenuItem>
 
                 {/* Sezione dinamica: artista vs customer */}
                 {user?.role === "artist" ? (

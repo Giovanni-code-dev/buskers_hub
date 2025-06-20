@@ -22,6 +22,8 @@ import ArtistPublicPage from "@/pages/artist/ArtistPublicPage"
 
 // Dashboard customer (protetta)
 import DashboardCustomer from "@/pages/dashboard/customer/DashboardCustomer"
+import CustomerProfile from "@/pages/dashboard/customer/CustomerProfile"
+
 
 // Dashboard artista (protetta)
 import DashboardArtist from "@/pages/dashboard/artist/DashboardArtist"
@@ -62,6 +64,8 @@ function App() {
       <Route element={<ProtectedRoute />}>
         <Route element={<Layout />}>
           <Route path="/dashboard/customer" element={<DashboardCustomer />} />
+          <Route path="/dashboard/customer/profile" element={<CustomerProfile />} />
+
         </Route>
       </Route>
 
