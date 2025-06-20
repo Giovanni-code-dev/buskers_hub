@@ -352,8 +352,10 @@ const Shows = () => {
                       {show.description}
                     </p>
                     <p className="text-sm">
-                      {show.category} — {show.durationMinutes} min
-                    </p>
+  {
+    categories.find((cat) => cat._id === show.category)?.name || show.category
+  } — {show.durationMinutes} min
+</p>
                   </div>
                   <div className="flex justify-between mt-4">
                     <Button variant="outline" size="sm" onClick={() => editShow(show)}>
