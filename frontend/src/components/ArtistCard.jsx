@@ -11,11 +11,11 @@ const ArtistCard = ({ artist }) => {
   const extraCount = artist.categories?.length > 2 ? artist.categories.length - 2 : 0
 
   return (
-    <Link to={`/artist/${artist._id}`} className="block hover:shadow-xl transition-shadow">
+    <Link to={`/artist/${artist._id}`} className="block">
 
       <Card
-        className="w-full overflow-hidden rounded-xl shadow hover:shadow-lg transition-all border"
-        style={{ backgroundColor, fontFamily }}
+  className="w-full overflow-hidden rounded-xl shadow hover:shadow-lg active:scale-[0.98] transition-transform border"
+  style={{ backgroundColor, fontFamily }}
       >
         {/* Immagine sopra: altezza fissa, copre tutta la larghezza */}
         <div className="relative w-full h-52 sm:h-60 md:h-56">
