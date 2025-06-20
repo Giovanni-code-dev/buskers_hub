@@ -11,53 +11,54 @@ const ArtistCard = ({ artist }) => {
   const extraCount = artist.categories?.length > 2 ? artist.categories.length - 2 : 0
 
   return (
-    <Card
-      className="w-full overflow-hidden rounded-xl shadow hover:shadow-lg transition-all border"
-      style={{ backgroundColor, fontFamily }}
-    >
-      {/* Immagine sopra: altezza fissa, copre tutta la larghezza */}
-      <div className="relative w-full h-52 sm:h-60 md:h-56">
-  <img
-    src={artist.avatar}
-    alt={artist.name}
-    className="w-full h-full object-cover"
-  />
-</div>
+    <Link to={`/artist/${artist._id}`} className="block hover:shadow-xl transition-shadow">
+
+      <Card
+        className="w-full overflow-hidden rounded-xl shadow hover:shadow-lg transition-all border"
+        style={{ backgroundColor, fontFamily }}
+      >
+        {/* Immagine sopra: altezza fissa, copre tutta la larghezza */}
+        <div className="relative w-full h-52 sm:h-60 md:h-56">
+          <img
+            src={artist.avatar}
+            alt={artist.name}
+            className="w-full h-full object-cover"
+          />
+        </div>
 
 
-      {/* Contenuto testo */}
-      <CardContent className="pt-3 pb-4 px-4 space-y-2">
-        {/* Nome */}
-        <Link to={`/artist/${artist._id}`}>
+        {/* Contenuto testo */}
+        <CardContent className="pt-3 pb-4 px-4 space-y-2">
+          {/* Nome */}
           <h3 className="text-sm font-medium truncate hover:underline">
             {artist.name}
           </h3>
-        </Link>
 
-        {/* Badge categorie */}
-        <div className="flex flex-wrap gap-1">
-          {displayCategories.map((cat, index) => (
-            <span
-              key={index}
-              className="bg-muted text-muted-foreground text-[11px] px-2 py-0.5 rounded-full"
-            >
-              {typeof cat === "object" && cat.name ? cat.name : String(cat)}
-            </span>
-          ))}
-          {extraCount > 0 && (
-            <span className="text-muted-foreground text-xs">+{extraCount}</span>
-          )}
-        </div>
-
-        {/* Città */}
-        {(artist.city || artist.location?.city) && (
-          <div className="flex items-center gap-1 text-xs text-muted-foreground">
-            <MapPin className="w-3 h-3" />
-            <span>{artist.city || artist.location.city}</span>
+          {/* Badge categorie */}
+          <div className="flex flex-wrap gap-1">
+            {displayCategories.map((cat, index) => (
+              <span
+                key={index}
+                className="bg-muted text-muted-foreground text-[11px] px-2 py-0.5 rounded-full"
+              >
+                {typeof cat === "object" && cat.name ? cat.name : String(cat)}
+              </span>
+            ))}
+            {extraCount > 0 && (
+              <span className="text-muted-foreground text-xs">+{extraCount}</span>
+            )}
           </div>
-        )}
-      </CardContent>
-    </Card>
+
+          {/* Città */}
+          {(artist.city || artist.location?.city) && (
+            <div className="flex items-center gap-1 text-xs text-muted-foreground">
+              <MapPin className="w-3 h-3" />
+              <span>{artist.city || artist.location.city}</span>
+            </div>
+          )}
+        </CardContent>
+      </Card>
+    </Link>
   )
 }
 
